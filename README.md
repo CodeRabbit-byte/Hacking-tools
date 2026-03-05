@@ -10,7 +10,7 @@ It combines utilities for **decoding, cryptography attacks, reverse engineering,
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/hacking-tools.git
+git clone [https://github.com/yourusername/hacking-tools.git](https://github.com/CodeRabbit-byte/Hacking-tools.git)
 cd hacking-tools
 ```
 

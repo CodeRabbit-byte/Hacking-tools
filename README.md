@@ -1,195 +1,238 @@
 # 🛠 Hacking Tools Collection
 
-A compact toolkit built for **CTF players, security researchers, and reverse engineers**.  
-It combines utilities for **decoding, cryptography attacks, reverse engineering, web security testing, forensics, OSINT, and networking**.
+A single-file Python toolkit for **CTF players, pentesting students, and security hobbyists**.
+It combines utilities for:
+
+- Encoding/decoding
+- Crypto attacks and helpers
+- Reverse engineering triage
+- Web testing payload helpers
+- Forensics helpers
+- OSINT helpers
+- Networking quick checks
+- General CTF utilities
+
+Main script: `hacking.py`
 
 ---
 
 ## 📦 Installation
 
-Clone the repository:
-
 ```bash
-git clone (https://github.com/CodeRabbit-byte/Hacking-tools.git)
-cd hacking-tools
-```
-
-Install required dependencies:
-
-```bash
+git clone https://github.com/CodeRabbit-byte/Hacking-tools.git
+cd Hacking-tools
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
 pip install pycryptodome gmpy2 requests owiener pyperclip
 ```
 
----
-
-## 📚 Table of Contents
-
-- [Features](#features)
-  - [Magic Decoder](#magic-decoder)
-  - [Cryptography Tools](#cryptography-tools)
-  - [Reverse Engineering Toolkit](#reverse-engineering-toolkit)
-  - [Web Security Toolkit](#web-security-toolkit)
-  - [Digital Forensics Tools](#digital-forensics-tools)
-  - [OSINT Utilities](#osint-utilities)
-  - [Networking Tools](#networking-tools)
-  - [General Utilities](#general-utilities)
+> The tool still runs without optional packages, but some features will be limited.
 
 ---
 
-# 🔧 Features
+## 🚀 Quick Start
 
-## 🔓 Magic Decoder
+### 1) Launch interactive mode
 
-Automatically attempts multiple decoding techniques to reveal hidden data.
+```bash
+python3 hacking.py
+```
 
-### Supported Decoders
+This opens the main menu where you can navigate by entering the numbered options.
 
-- Base64  
-- Base32  
-- Base85  
-- Hex  
-- Binary  
-- ROT13  
-- Caesar cipher (bruteforce)  
-- Decimal ASCII  
-- Morse code  
-- HTML entities  
-- URL decoding  
+### 2) Decode a string directly from CLI
 
-### Capabilities
+```bash
+python3 hacking.py --magic "ZmxhZ3t0b29sa2l0fQ=="
+```
 
-- Automatically runs multiple decoding attempts  
-- Detects potential flag patterns  
-- Highlights discovered flags  
+### 3) Auto-triage a file from CLI
+
+```bash
+python3 hacking.py --auto ./sample.bin
+```
 
 ---
 
-## 🔐 Cryptography Tools
+## 🧭 Elaborate Usage Guide
 
-Tools designed for analyzing and attacking common cryptographic schemes.
+## 1. Encoding / Magic Decoder
 
-### RSA Attacks
+### Best for
+- Unknown encoded strings
+- CTF flags hidden through layered encoding
 
-- Small-e cube root attack  
-- Common modulus attack  
-- Wiener's attack  
-- Fermat factorization  
-- Manual RSA decryption helper  
+### Workflow
+1. Choose `Encoding / Magic Decoder` from main menu.
+2. Paste your input.
+3. Review all decode attempts (Base64, Base32, Base85, hex, binary, ROT13, Caesar, decimal ASCII, morse, URL, HTML).
+4. If a flag-like pattern is found, it is highlighted automatically.
 
-### Classical & Modern Crypto
-
-- Vigenère cipher cracker (IoC analysis)  
-- XOR key recovery  
-- Hash type identifier  
-- Wordlist-based hash brute forcing  
-- AES-ECB block detection  
-- Padding oracle attack framework  
+### Tip
+If a result looks partially readable, feed that output back into magic decode again.
 
 ---
 
-## 🔍 Reverse Engineering Toolkit
+## 2. Cryptography Attacks
 
-Utilities for analyzing binaries and identifying protections.
+### Included
+- RSA small exponent
+- RSA common modulus
+- RSA Wiener attack
+- RSA Fermat factorization
+- Manual RSA decrypt
+- Vigenère crack
+- XOR crack
+- Hash identify + wordlist brute-force
+- AES-ECB pattern analysis
+- Padding-oracle concept demo
 
-### Features
+### Typical RSA solve path
+1. Try **Small exponent** first when `e=3` and plaintext was unpadded.
+2. If same `n` appears with two exponents, try **Common modulus**.
+3. If `d` suspected small, try **Wiener**.
+4. If `p≈q`, try **Fermat**.
+5. Fall back to **Manual decrypt** when parameters are known.
 
-- Full binary reconnaissance sweep  
-- String extraction  
-- Disassembly using `objdump`  
-- Byte patching (NOP-out jumps)  
-- Anti-debug detection scanner  
-- ELF header parser  
-- Interactive reverse engineering checklist  
-
----
-
-## 🌐 Web Security Toolkit
-
-Tools for testing common web application vulnerabilities.
-
-### Modules
-
-**SQL Injection Tester**
-
-- Error-based  
-- Boolean-based  
-- Time-based  
-
-**Other Tools**
-
-- XSS payload library  
-- LFI fuzzer  
-- JWT attack toolkit  
-  - `alg=none` bypass  
-  - HS256 brute force  
-  - Payload modification  
-- Directory brute forcer  
-- SSRF payload generator  
-- Parameter fuzzer  
-- Raw HTTP request sender  
+### Example: hash brute force
+```bash
+python3 hacking.py
+# Crypto -> Hash brute force
+# Enter target hash + wordlist + algo
+```
 
 ---
 
-## 🔎 Digital Forensics Tools
+## 3. Reverse Engineering Toolkit
 
-Utilities for analyzing files and extracting hidden data.
+### Included
+- Full recon sweep
+- String extraction with regex filters
+- Function disassembly wrapper
+- Binary byte patching
+- Anti-debug pattern checks
+- ELF header parser
+- RE checklist
 
-### Features
-
-- File analysis and entropy calculation  
-- Steganography testing  
-  - `stegseek`  
-  - `steghide`  
-  - `zsteg`  
-- PCAP analysis using `tshark`  
-- Metadata extraction  
-- File carving with `binwalk`  
-- Hex viewer  
-- PNG LSB data extractor  
-
----
-
-## 🌍 OSINT Utilities
-
-Tools for gathering open-source intelligence.
-
-### Capabilities
-
-- Domain and IP reconnaissance  
-- Email header analysis  
-- Geolocation from EXIF metadata  
-- Google dork generator  
-- Username search across platforms  
+### Recommended workflow
+1. Run full recon.
+2. Extract strings and search `flag|key|pass|secret`.
+3. Disassemble suspicious functions (`main`, `check_flag`, etc.).
+4. Patch conditional jumps if needed.
+5. Re-run and compare behavior.
 
 ---
 
-## 📡 Networking Tools
+## 4. Web Security Toolkit
 
-Networking utilities for reconnaissance and protocol analysis.
+### Included
+- SQLi probes (error/boolean/time style checks)
+- XSS payload bank
+- LFI helper
+- JWT helper actions
+- Directory brute helper
+- SSRF payload generator
+- Parameter fuzzer
+- Raw HTTP requester
 
-### Functions
-
-- Socket-based port scanner  
-- Banner grabbing  
-- `nmap` wrapper  
-- Protocol hex decoder  
-
----
-
-## 🛠 General Utilities
-
-Helpful tools commonly used during CTFs and security workflows.
-
-- Number base converter  
-- ROT cipher brute force (all 25 variations)  
-- Frequency analysis  
-- URL encode / decode  
-- Flag format validator  
-- Cyclic payload generator  
-- Python one-liner cheat sheet  
+### Practical usage
+- Use it as a **payload + workflow assistant**, not a scanner replacement.
+- Keep legal scope boundaries strict (CTF/labs/authorized targets only).
 
 ---
 
-⭐ **Purpose**
+## 5. Forensics Toolkit
 
-This toolkit aims to streamline repetitive tasks during **CTFs, pentesting labs, and security research**, allowing faster analysis and problem solving.
+### Included
+- File-type and metadata checks
+- Steganography helper commands
+- PCAP analysis helper
+- File carving helper
+- Hex viewer
+- PNG LSB extractor
+- Entropy calculator
+
+### Workflow
+1. Start with file analysis and entropy.
+2. Pull metadata.
+3. Try strings/hex/LSB.
+4. Carve with `binwalk` if suspicious archive data exists.
+
+---
+
+## 6. OSINT Toolkit
+
+### Included
+- Domain/IP recon helper
+- Email header analyzer
+- Image metadata guidance
+- Username search guidance
+- Geolocation helper
+- Google dork builder
+
+### Note
+Some modules provide command/query templates so you can execute quickly with your preferred tools.
+
+---
+
+## 7. Networking Toolkit
+
+### Included
+- Port scanner
+- Banner grabber
+- Netcat helper
+- Nmap wrapper
+- Protocol/hex decode helper
+
+### Suggested order
+1. Basic port scan.
+2. Banner grab on live ports.
+3. Deepen with nmap scripts and service versioning.
+
+---
+
+## 8. Utilities
+
+### Included
+- Number base conversion
+- String/byte/int conversion
+- Flag finder regex helper
+- URL encode/decode
+- Random payload generator
+- Flag format validator
+- ROT brute
+- Frequency analysis
+- One-liner cheatsheet
+
+### Good use cases
+- Quickly validate candidate flags.
+- Convert challenge values across decimal/hex/binary.
+- Generate test payloads for local exploit prototyping.
+
+---
+
+## 🧪 Running the test suite
+
+A local automated unit test suite is included.
+
+```bash
+python3 -m unittest -v tests/test_hacking.py
+python3 -m py_compile hacking.py tests/test_hacking.py
+```
+
+The tests cover key deterministic behavior such as decoding helpers, conversion tools, hash identification flow, command execution wrapper behavior, and auto-triage text handling. They also include an in-repo local test website (`tests/example.py`) used to exercise web/network features like SQLi, LFI, parameter fuzzing, and HTTP request handling in a controlled environment.
+
+---
+
+## ⚠️ Important Notes
+
+- This project is intended for **CTFs, labs, and authorized security testing only**.
+- Some modules call external binaries (`strings`, `objdump`, `readelf`, `nmap`, etc.). Install those tools for full functionality.
+- Optional Python dependencies are auto-detected at runtime.
+
+---
+
+## ⭐ Purpose
+
+Reduce repetitive CTF workflow friction so you can focus on analysis and solving.

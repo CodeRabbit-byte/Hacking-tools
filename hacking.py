@@ -2070,7 +2070,7 @@ def oneliner_sheet():
 
   {C.CYAN}Network:{C.RESET}
     Quick request:   python3 -c "import urllib.request; print(urllib.request.urlopen('URL').read())"
-    POST request:    python3 -c "import requests; r=requests.post('URL',data={'k':'v'}); print(r.text)"
+    POST request:    python3 -c "import requests; r=requests.post('URL',data={{'k':'v'}}); print(r.text)"
     """)
 
 def rot_brute():

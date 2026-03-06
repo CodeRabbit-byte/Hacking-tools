@@ -221,7 +221,7 @@ python3 -m unittest -v tests/test_hacking.py
 python3 -m py_compile hacking.py tests/test_hacking.py
 ```
 
-The tests cover key deterministic behavior such as decoding helpers, conversion tools, hash identification flow, command execution wrapper behavior, and auto-triage text handling.
+The tests cover key deterministic behavior such as decoding helpers, conversion tools, hash identification flow, command execution wrapper behavior, and auto-triage text handling. They also include an in-repo local test website (`tests/example.py`) used to exercise web/network features like SQLi, LFI, parameter fuzzing, and HTTP request handling in a controlled environment.
 
 ---
 
